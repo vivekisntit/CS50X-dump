@@ -1,3 +1,81 @@
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+int valid(char h[]);
+void msg(int f, char h[]);
+int main()
+{
+    char h[100];
+    int c;
+    int v;
+    do
+    {
+        c = 1;
+        printf("Number: ");
+        fgets(h, sizeof(h), stdin);
+        h[strcspn(h, "\n")] = '\0';
+        for (int i = 0; i < strlen(h); i++)
+        {
+            if (!isdigit(h[i]))
+            {
+                c = 0;
+                break;
+            }
+        }
+    } while (!c);
+    int d = valid(h);
+    msg(d, h);
+}
+int valid(char h[])
+{
+    // int a = 100;
+    int num = 0, sum = 0;
+    int f = 0;
+    // int m;
+    for (int i = strlen(h) - 1; i > -1; i--)
+    {
+        num = h[i] - '0';
+        if (f)
+        {
+            num*=2;
+            if (num > 9)
+            {
+                // while (num != 0)
+                // {
+                //     sum += num % 10;
+                //     num /= 10;
+                // }
+                num -= 9;
+                // sum = 0;
+            }
+        }
+        sum += num;
+        f = !f;
+    }
+    return (sum % 10 == 0);
+}
+void msg(int f, char h[])
+{
+    int m = (h[0] - '0') * 10 + (h[1] - '0');
+    if (f)
+    {
+        int len = strlen(h);
+        if ((m == 34 || m == 37) && len == 15)
+            printf("AMEX\n");
+        else if ((m > 50 && m < 56) && len == 16)
+            printf("MASTERCARD\n");
+        else if ((m > 39 && m < 50) && (len == 13 || len == 16))
+            printf("VISA\n");
+        else
+            printf("first------INVALID\n");
+    }
+    else
+        printf("second-------INVALID\n");
+}
+
+
 // #include <stdio.h>
 // #include <ctype.h>
 // #include <string.h>
@@ -78,82 +156,6 @@
 //     }
 // }
 
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
-
-int valid(char h[]);
-void msg(int f, char h[]);
-int main()
-{
-    char h[100];
-    int c;
-    int v;
-    do
-    {
-        c = 1;
-        printf("Number: ");
-        fgets(h, sizeof(h), stdin);
-        h[strcspn(h, "\n")] = '\0';
-        for (int i = 0; i < strlen(h); i++)
-        {
-            if (!isdigit(h[i]))
-            {
-                c = 0;
-                break;
-            }
-        }
-    } while (!c);
-    int d = valid(h);
-    msg(d, h);
-}
-int valid(char h[])
-{
-    // int a = 100;
-    int num = 0, sum = 0;
-    int f = 0;
-    // int m;
-    for (int i = strlen(h) - 1; i > -1; i--)
-    {
-        num = h[i] - '0';
-        if (f)
-        {
-            num*=2;
-            if (num > 9)
-            {
-                // while (num != 0)
-                // {
-                //     sum += num % 10;
-                //     num /= 10;
-                // }
-                num -= 9;
-                // sum = 0;
-            }
-        }
-        sum += num;
-        f = !f;
-    }
-    return (sum % 10 == 0);
-}
-void msg(int f, char h[])
-{
-    int m = (h[0] - '0') * 10 + (h[1] - '0');
-    if (f)
-    {
-        int len = strlen(h);
-        if ((m == 34 || m == 37) && len == 15)
-            printf("AMEX\n");
-        else if ((m > 50 && m < 56) && len == 16)
-            printf("MASTERCARD\n");
-        else if ((m > 39 && m < 50) && (len == 13 || len == 16))
-            printf("VISA\n");
-        else
-            printf("first------INVALID\n");
-    }
-    else
-        printf("second-------INVALID\n");
-}
 
 // #include <stdio.h>
 // #include <ctype.h>
